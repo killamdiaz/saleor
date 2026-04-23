@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 def home(request):
     storefront_url = os.environ.get("STOREFRONT_URL", "")
     dashboard_url = os.environ.get("DASHBOARD_URL", "")
+    if not dashboard_url:
+        dashboard_url = request.build_absolute_uri("/dashboard/")
     return TemplateResponse(
         request,
         "home/index.html",
