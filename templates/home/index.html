@@ -148,6 +148,32 @@
           column-gap: 80px;
         }
       }
+      .tero-pill {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 999px;
+        padding: 6px 14px 6px 10px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #1a202c;
+        text-decoration: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        z-index: 1000;
+        transition: box-shadow 0.2s ease;
+      }
+      .tero-pill:hover {
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        color: #1a202c;
+      }
+      .tero-pill svg {
+        flex-shrink: 0;
+      }
     </style>
   </head>
 
@@ -211,5 +237,9 @@
         </div>
       </div>
     </div>
+    <a href="https://tero.run" target="_blank" rel="noopener noreferrer" class="tero-pill">
+      {% include "home/images/fox-logo.svg" %}
+      Monitored by Tero
+    </a>
   </body>
 </html>

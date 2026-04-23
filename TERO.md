@@ -3,7 +3,8 @@
 
 ## What changed
 
-- `saleor/core/views.py`
+- `templates/home/images/fox-logo.svg`
+- `templates/home/index.html`
 
 ## Deploy checklist
 

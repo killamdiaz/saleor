@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none">
+  <!-- Fox body/head -->
+  <ellipse cx="16" cy="18" rx="8" ry="7" fill="#E8622A"/>
+  <!-- Fox face -->
+  <ellipse cx="16" cy="19" rx="5" ry="4.5" fill="#F5A623"/>
+  <!-- Fox ears -->
+  <polygon points="8,12 6,4 13,10" fill="#E8622A"/>
+  <polygon points="24,12 26,4 19,10" fill="#E8622A"/>
+  <!-- Inner ears -->
+  <polygon points="8.5,11 7.5,6 12,9.5" fill="#F5A623"/>
+  <polygon points="23.5,11 24.5,6 20,9.5" fill="#F5A623"/>
+  <!-- Eyes -->
+  <ellipse cx="13" cy="17" rx="1.5" ry="1.5" fill="#2C1810"/>
+  <ellipse cx="19" cy="17" rx="1.5" ry="1.5" fill="#2C1810"/>
+  <!-- Eye shine -->
+  <circle cx="13.5" cy="16.5" r="0.4" fill="white"/>
+  <circle cx="19.5" cy="16.5" r="0.4" fill="white"/>
+  <!-- Nose -->
+  <ellipse cx="16" cy="20" rx="1" ry="0.7" fill="#2C1810"/>
+  <!-- Tail -->
+  <path d="M24,22 Q30,20 29,26 Q26,28 24,24Z" fill="#E8622A"/>
+  <path d="M27.5,25.5 Q29,25 28.5,27 Q27,27.5 27,26Z" fill="white"/>
+  <!-- Muzzle white area -->
+  <ellipse cx="16" cy="20.5" rx="3.5" ry="2.5" fill="#FBE8D0"/>
+</svg>
