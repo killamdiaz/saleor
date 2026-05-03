@@ -58,3 +58,51 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy changed edge functions
+        # GitHub reserves the SUPABASE_ secret name prefix on some repos/orgs
+        # (Supabase Vault for GitHub Actions integration). We store them under
+        # SB_* and map to the env var names the Supabase CLI expects at runtime.
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SB_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SB_PROJECT_REF }}
+        run: |
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ] || [ -z "$SUPABASE_PROJECT_REF" ]; then
+            echo "SB_ACCESS_TOKEN or SB_PROJECT_REF secret not set — skipping deploy."
+            exit 0
+          fi
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+          FUNCTIONS_TO_DEPLOY=""
+          for file in $CHANGED_FILES; do
+            if [[ "$file" == supabase/functions/*/index.ts ]]; then
+              FUNC_NAME=$(echo "$file" | sed 's|supabase/functions/||' | sed 's|/index.ts||')
+              if [[ "$FUNC_NAME" != "_shared" ]]; then
+                FUNCTIONS_TO_DEPLOY="$FUNCTIONS_TO_DEPLOY $FUNC_NAME"
+              fi
+            fi
+          done
+          if echo "$CHANGED_FILES" | grep -q "supabase/functions/_shared/"; then
+            for dir in supabase/functions/*/; do
+              FUNC_NAME=$(basename "$dir")
+              if [[ "$FUNC_NAME" != "_shared" ]]; then
+                FUNCTIONS_TO_DEPLOY="$FUNCTIONS_TO_DEPLOY $FUNC_NAME"
+              fi
+            done
+          fi
+          FUNCTIONS_TO_DEPLOY=$(echo "$FUNCTIONS_TO_DEPLOY" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+          if [ -z "$FUNCTIONS_TO_DEPLOY" ]; then
+            echo "No edge functions to deploy"
+          else
+            # --use-api bundles server-side (no Docker) — the Docker bundler
+            # sometimes ships stale content on GitHub runners even after a
+            # clean checkout.
+            for func in $FUNCTIONS_TO_DEPLOY; do
+              echo "Deploying $func..."
+              supabase functions deploy "$func" --no-verify-jwt --use-api --project-ref "$SUPABASE_PROJECT_REF"
+            done
+          fi
+
